@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Candidato, Candidatura, EstagioRecrutamento, Vaga
+from .models import Candidato, Aplicacao, EtapaRecrutamento, Vaga
 
 
-class CandidaturaInline(admin.TabularInline):
-    model = Candidatura
+class AplicacaoInline(admin.TabularInline):
+    model = Aplicacao
     extra = 0
 
 
@@ -14,17 +14,23 @@ class CandidatoAdmin(admin.ModelAdmin):
         'uuid', 'slug', 'date_joined', 'country', 'preferred_language', 'is_staff', 'is_active', 'is_superuser',
         'last_login', 'groups', 'user_permissions', 'password', 'username')
     inlines = [
-        CandidaturaInline,
+        AplicacaoInline,
     ]
+
 
 class VagaAdmin(admin.ModelAdmin):
     list_display = ('empresa', 'titulo', 'candidatos')
 
-class CandidaturaAdmin(admin.ModelAdmin):
-    list_display = ('vaga', 'estagio', 'candidato')
+    inlines = [
+        AplicacaoInline,
+    ]
+
+
+class AplicacaoAdmin(admin.ModelAdmin):
+    list_display = ('vaga', 'etapa', 'candidato')
 
 
 admin.site.register(Candidato, CandidatoAdmin)
-admin.site.register(Candidatura, CandidaturaAdmin)
-admin.site.register(EstagioRecrutamento)
+admin.site.register(Aplicacao, AplicacaoAdmin)
+admin.site.register(EtapaRecrutamento)
 admin.site.register(Vaga, VagaAdmin)

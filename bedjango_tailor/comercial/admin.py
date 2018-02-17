@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Contrato, Empresa, Contato, EstagioNegociacao
+from recrutamento.models import Vaga
+from .models import Contrato, Empresa, Contato, EtapaNegociacao
 
 
 class ContratoInline(admin.TabularInline):
@@ -16,16 +17,21 @@ class ContatoInline(admin.TabularInline):
     extra = 0
 
 
+class VagaInline(admin.TabularInline):
+    model = Vaga
+    extra = 0
+
 class EmpresaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'telefone', 'contratos_abertos', 'vagas', 'cidade')
     inlines = [
         ContatoInline,
         ContratoInline,
+        VagaInline
     ]
 
 
 class ContratoAdmin(admin.ModelAdmin):
-    list_display = ('empresa', 'estagio', 'vagas', 'valor')
+    list_display = ('empresa', 'etapa', 'vagas', 'valor')
 
 
 class ContatoAdmin(admin.ModelAdmin):
@@ -37,5 +43,5 @@ class ContatoAdmin(admin.ModelAdmin):
 
 admin.site.register(Contrato, ContratoAdmin)
 admin.site.register(Contato, ContatoAdmin)
-admin.site.register(EstagioNegociacao)
+admin.site.register(EtapaNegociacao)
 admin.site.register(Empresa, EmpresaAdmin)

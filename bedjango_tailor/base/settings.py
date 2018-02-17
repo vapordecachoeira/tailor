@@ -163,11 +163,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'pt-br'
 
 LANGUAGES = (
-    ('es', 'Espanol (Espana)'),
-    ('en', 'English'),
+    ('pt-br', 'Português (Brasil)'),
 )
 
 TIME_ZONE = 'UTC'

@@ -10,34 +10,54 @@ class Empresa(models.Model):
     cidade = models.CharField(max_length=150)
 
     def contratos_abertos(self):
-        return 3
+        return Contrato.objects.filter(empresa=self).count()
 
     def vagas(self):
-        return 1
+        from recrutamento.models import Vaga
+        return Vaga.objects.filter(empresa=self).count()
 
     def __str__(self):
         return self.nome
 
+    class Meta:
+
+        verbose_name = 'Empresa'
+        verbose_name_plural = 'Empresas'
+
 
 class Contato(Pessoa):
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)  # Cascade is not the best in this case
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
+
+    class Meta:
+
+        verbose_name = 'Contato de Empresa'
+        verbose_name_plural = 'Contatos de Empresa'
 
 
-class EstagioNegociacao(models.Model):
-    estagio = models.CharField(max_length=100)
+class EtapaNegociacao(models.Model):
+    etapa = models.CharField(max_length=100)
     descricao = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.estagio
+        return self.etapa
+
+    class Meta:
+
+        verbose_name = 'Etapa de Negociação'
+        verbose_name_plural = 'Etapas de Negociação'
 
 
 class Contrato(models.Model):
-    estagio = models.ForeignKey(EstagioNegociacao, on_delete=models.CASCADE, null=True)
+    etapa = models.ForeignKey(EtapaNegociacao, on_delete=models.CASCADE, null=True)
     vagas = models.IntegerField(null=True)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)  # Cascade is not the best in this case
-    # vagas Como fazer isso ser visível aqui mas não na vaga em si?
-    valor = models.FloatField(max_length=10)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
+    valor = models.IntegerField()
     descricao = models.TextField(max_length=1000)
 
     def __str__(self):
-        return str(self.empresa) + ' ' + str(self.vagas) + ' ' + str(self.estagio)
+        return str(self.empresa) + ' ' + str(self.vagas) + ' ' + str(self.etapa)
+
+    class Meta:
+
+        verbose_name = 'Contrato'
+        verbose_name_plural = 'Contratos'
