@@ -11,18 +11,19 @@ class ContratoInline(admin.TabularInline):
 
 class ContatoInline(admin.TabularInline):
     model = Contato
-    exclude = (
-        'uuid', 'slug', 'date_joined', 'country', 'preferred_language', 'is_staff', 'is_active', 'is_superuser',
-        'last_login', 'groups', 'user_permissions', 'password', 'username')
     extra = 0
+    fields = ('nome', 'email', 'telefone', 'celular')
 
 
 class VagaInline(admin.TabularInline):
     model = Vaga
     extra = 0
 
+
 class EmpresaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'telefone', 'contratos_abertos', 'vagas', 'cidade')
+    list_filter = ('cidade', )
+    search_fields = ('nome', )
     inlines = [
         ContatoInline,
         ContratoInline,
@@ -32,13 +33,14 @@ class EmpresaAdmin(admin.ModelAdmin):
 
 class ContratoAdmin(admin.ModelAdmin):
     list_display = ('empresa', 'etapa', 'vagas', 'valor')
+    list_filter = ('etapa', 'empresa')
+    search_fields = ('empresa__nome',)
 
 
 class ContatoAdmin(admin.ModelAdmin):
-    list_display = ('empresa', 'first_name', 'last_name', 'email', 'telefone', 'celular')
-    exclude = (
-        'uuid', 'slug', 'date_joined', 'country', 'preferred_language', 'is_staff', 'is_active', 'is_superuser',
-        'last_login', 'groups', 'user_permissions', 'password', 'username')
+    list_display = ('empresa', 'nome', 'email', 'telefone', 'celular')
+    list_filter = ('empresa',)
+    search_fields = ('empresa__nome', 'nome', 'email')
 
 
 admin.site.register(Contrato, ContratoAdmin)

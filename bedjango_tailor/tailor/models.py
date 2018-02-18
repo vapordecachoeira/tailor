@@ -3,7 +3,9 @@ from django.db import models
 from users.models import User
 
 
-class Pessoa(User):
+class Pessoa(models.Model):
+    nome = models.TextField()
+    email = models.EmailField()
     telefone = models.CharField(max_length=15)
     celular = models.CharField(max_length=15)
     cidade = models.CharField(max_length=20, blank=True)  # criar model
@@ -12,4 +14,4 @@ class Pessoa(User):
         abstract = True
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.nome

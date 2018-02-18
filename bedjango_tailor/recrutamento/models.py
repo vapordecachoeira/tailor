@@ -8,6 +8,7 @@ class Vaga(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=50)
     descricao = models.TextField()
+    documento = models.FileField('Documento Original', upload_to='vaga_documentos/%Y/%m/%d/', null=True, blank=True)
 
     def candidatos(self):
         return Aplicacao.objects.filter(vaga=self).count()
@@ -34,15 +35,22 @@ class EtapaRecrutamento(models.Model):
 
 
 class Candidato(Pessoa):
+    endereco = models.TextField('Endereço', null=True, blank=True)
+    escolaridade = models.TextField('Escolaridade', null=True, blank=True)
+    experiencia = models.TextField('Experiência', null=True, blank=True)
+    area_interesse = models.TextField('Área(s) de interesse', null=True, blank=True)
+    data_nascimento = models.DateField('Data de Nascimento')
     linkedin = models.URLField(max_length=50, blank=True)
     github = models.URLField(max_length=50, blank=True)
+
+    cv = models.FileField('Curriculum Vitae', upload_to='candidato_cv/%Y/%m/%d/', null=True, blank=True)
 
     class Meta:
 
         verbose_name = 'Candidato'
         verbose_name_plural = 'Candidatos'
 
-    def candidaturas(self):
+    def aplicacoes(self):
         return Aplicacao.objects.filter(candidato=self).count()
 
 
