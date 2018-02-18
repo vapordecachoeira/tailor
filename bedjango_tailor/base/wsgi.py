@@ -9,6 +9,6 @@ from django.core.wsgi import get_wsgi_application
 
 # sys.path.insert(0, '/django-app')
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings_heroku")
 
 application = get_wsgi_application()
