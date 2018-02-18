@@ -108,3 +108,5 @@ venv.bak/
 *.sqlite3
 media/
 *.pyc
+
+.DS_Store
