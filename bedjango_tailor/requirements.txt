@@ -10,3 +10,4 @@ django-cookie-law==1.0.13
 gunicorn
 dj-database-url
 psycopg2
+whitenoise
