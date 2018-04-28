@@ -18,10 +18,10 @@ SECRET_KEY = 'vqje&(s$kn!osyitq#y%y1)g7-63#ia#+45(d&c%7x7u)d!pn3'
 # PYTHON version
 PYTHON_VERSION = sys.version_info
 
-DEBUG_PROPAGATE_EXCEPTIONS = False
+DEBUG_PROPAGATE_EXCEPTIONS = True
 DEBUG = DEBUG_PROPAGATE_EXCEPTIONS
 
-ALLOWED_HOSTS = ['settings.py']
+ALLOWED_HOSTS = ['tailoritadmin.herokuapp.com']
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'django_countries',
     'rosetta',
     'cookielaw',
@@ -68,7 +69,7 @@ ROOT_URLCONF = 'base.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         # 'DIRS': ['../templates'],
         'APP_DIRS': True,
         'OPTIONS': {

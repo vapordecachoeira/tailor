@@ -24,6 +24,7 @@ class EmpresaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'telefone', 'contratos_abertos', 'vagas', 'cidade')
     list_filter = ('cidade', )
     search_fields = ('nome', )
+    ordering = ('nome', 'cidade')
     inlines = [
         ContatoInline,
         ContratoInline,
@@ -35,12 +36,14 @@ class ContratoAdmin(admin.ModelAdmin):
     list_display = ('empresa', 'etapa', 'vagas', 'valor')
     list_filter = ('etapa', 'empresa')
     search_fields = ('empresa__nome',)
+    ordering = ('empresa', 'etapa')
 
 
 class ContatoAdmin(admin.ModelAdmin):
     list_display = ('empresa', 'nome', 'email', 'telefone', 'celular')
     list_filter = ('empresa',)
     search_fields = ('empresa__nome', 'nome', 'email')
+    ordering = ('empresa', 'nome', 'email', 'telefone')
 
 
 admin.site.register(Contrato, ContratoAdmin)

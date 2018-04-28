@@ -4,10 +4,10 @@ from tailor.models import Pessoa
 
 
 class Empresa(models.Model):
-    nome = models.CharField(max_length=30)
-    telefone = models.CharField(max_length=30)
-    endereco = models.CharField(max_length=150)
-    cidade = models.CharField(max_length=150)
+    nome = models.TextField()
+    telefone = models.CharField('Telefone', max_length=128)
+    endereco = models.CharField('Endereço', max_length=512)
+    cidade = models.CharField('Cidade', max_length=256)
 
     def contratos_abertos(self):
         return Contrato.objects.filter(empresa=self).count()
@@ -35,8 +35,8 @@ class Contato(Pessoa):
 
 
 class EtapaNegociacao(models.Model):
-    etapa = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=200)
+    etapa = models.CharField(max_length=128)
+    descricao = models.CharField(max_length=256)
 
     def __str__(self):
         return self.etapa
@@ -52,7 +52,7 @@ class Contrato(models.Model):
     vagas = models.IntegerField(null=True)
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
     valor = models.IntegerField()
-    descricao = models.TextField(max_length=1000)
+    descricao = models.TextField()
 
     def __str__(self):
         return str(self.empresa) + ' ' + str(self.vagas) + ' ' + str(self.etapa)

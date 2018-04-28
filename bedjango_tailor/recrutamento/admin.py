@@ -9,17 +9,19 @@ class AplicacaoInline(admin.TabularInline):
 
 
 class CandidatoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'email', 'telefone', 'aplicacoes')
-    search_fields = ('nome', 'email')
+    list_display = ('nome', 'email', 'telefone', 'aplicacoes', 'area_interesse')
+    search_fields = ('nome__unaccent', 'email')
+    ordering = ('nome', 'email', 'area_interesse')
     inlines = [
         AplicacaoInline,
     ]
 
 
 class VagaAdmin(admin.ModelAdmin):
-    list_display = ('empresa', 'titulo', 'candidatos')
-    list_filter = ('empresa', 'empresa__cidade')
+    list_display = ('empresa', 'titulo', 'candidatos', 'status')
+    list_filter = ('empresa', 'empresa__cidade', 'status')
     search_fields = ('empresa__nome', 'titulo')
+    ordering = ('titulo', 'empresa', 'status')
 
     inlines = [
         AplicacaoInline, # TODO separar por estágio
@@ -40,6 +42,8 @@ class AplicacaoAdmin(admin.ModelAdmin):
     list_filter = (('etapa__nome', custom_titled_filter('Etapa')), 'vaga__empresa__cidade')
 
     search_fields = ('candidato__nome', 'vaga__titulo', 'vaga__empresa__nome')
+
+    ordering = ('vaga', 'etapa', 'candidato')
 
 
 admin.site.register(Candidato, CandidatoAdmin)

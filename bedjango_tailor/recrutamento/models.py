@@ -1,14 +1,34 @@
 from django.db import models
 
+from base.choices import ChoicesMeta
 from comercial.models import Empresa
 from tailor.models import Pessoa
 
 
 class Vaga(models.Model):
+
+    class Status(metaclass=ChoicesMeta):
+
+        EM_NEGOCIACAO_CLIENTE = 'Em negociação com cliente'
+        ATIVA = 'Ativa'
+        INATIVA = 'Inativa'
+        PARALISADA = 'Paralisada'
+        FECHADA = 'Fechada'
+
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=50)
     descricao = models.TextField()
     documento = models.FileField('Documento Original', upload_to='vaga_documentos/%Y/%m/%d/', null=True, blank=True)
+
+    status = models.CharField('Status da Vaga', max_length=128, default=Status.ATIVA, choices=Status)
+
+    funcionario_responsavel = models.ForeignKey(
+        'users.User',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name='Funcionário Responsável pela vaga'
+    )
 
     def candidatos(self):
         return Aplicacao.objects.filter(vaga=self).count()
@@ -39,11 +59,21 @@ class Candidato(Pessoa):
     escolaridade = models.TextField('Escolaridade', null=True, blank=True)
     experiencia = models.TextField('Experiência', null=True, blank=True)
     area_interesse = models.TextField('Área(s) de interesse', null=True, blank=True)
-    data_nascimento = models.DateField('Data de Nascimento')
-    linkedin = models.URLField(max_length=50, blank=True)
-    github = models.URLField(max_length=50, blank=True)
+    idade = models.IntegerField('Idade', default=0, blank=True, null=True)
+    linkedin = models.URLField(max_length=1024, blank=True)
+    github = models.URLField(max_length=1024, blank=True)
 
     cv = models.FileField('Curriculum Vitae', upload_to='candidato_cv/%Y/%m/%d/', null=True, blank=True)
+
+    anexo1 = models.FileField('Anexo 1 (Arquivo)', upload_to='candidato_anexo/%Y/%m/%d/_1/', null=True, blank=True)
+    anexo2 = models.FileField('Anexo 2 (Arquivo)', upload_to='candidato_anexo/%Y/%m/%d/_2/', null=True, blank=True)
+    anexo3 = models.FileField('Anexo 3 (Arquivo)', upload_to='candidato_anexo/%Y/%m/%d/_3/', null=True, blank=True)
+    anexo4 = models.FileField('Anexo 4 (Arquivo)', upload_to='candidato_anexo/%Y/%m/%d/_4/', null=True, blank=True)
+    anexo5 = models.FileField('Anexo 5 (Arquivo)', upload_to='candidato_anexo/%Y/%m/%d/_5/', null=True, blank=True)
+
+    obs = models.TextField('Observações', null=True, blank=True)
+
+    pretensao_salarial = models.DecimalField('Pretensão Salarial', max_digits=6, decimal_places=2, null=True, blank=True)
 
     class Meta:
 
@@ -58,6 +88,14 @@ class Aplicacao(models.Model):
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE)
     etapa = models.ForeignKey(EtapaRecrutamento, on_delete=models.CASCADE)
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
+
+    funcionario_conduzindo = models.ForeignKey(
+        'users.User',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name='Funcionário conduzindo aplicação'
+    )
 
     class Meta:
 

@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'django_countries',
     'rosetta',
     'cookielaw',
@@ -96,19 +97,18 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'skeleton_database',
-    #     'USER': 'project',
-    #     'PASSWORD': 'project',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    #  }
-
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tailor',
+        'USER': 'salvia',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 # Cache: http://django-cachalot.readthedocs.io/en/latest/quickstart.html
