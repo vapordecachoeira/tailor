@@ -55,7 +55,7 @@ class EtapaRecrutamento(models.Model):
 
 
 class Candidato(Pessoa):
-    nome_sem_acento = models.TextField(null=True, blank=True)
+    nome_sem_acento = models.TextField(verbose_name='Nome sem acentos (apenas para buscas internas)', null=True, blank=True)
     endereco = models.TextField('Endereço', null=True, blank=True)
     escolaridade = models.TextField('Escolaridade', null=True, blank=True)
     experiencia = models.TextField('Experiência', null=True, blank=True)
