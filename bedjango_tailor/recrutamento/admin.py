@@ -10,7 +10,7 @@ class AplicacaoInline(admin.TabularInline):
 
 class CandidatoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'email', 'telefone', 'aplicacoes', 'area_interesse')
-    search_fields = ('nome__unaccent', 'email')
+    search_fields = ('nome', 'email', 'nome_sem_acento', 'area_interesse', 'experiencia')
     ordering = ('nome', 'email', 'area_interesse')
     inlines = [
         AplicacaoInline,
